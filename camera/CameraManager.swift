@@ -627,14 +627,16 @@ public class CameraManager: NSObject, AVCaptureFileOutputRecordingDelegate, UIGe
             currentConnection = _getMovieOutput().connectionWithMediaType(AVMediaTypeVideo)
         }
         if let validPreviewLayer = previewLayer {
-            if let validPreviewLayerConnection = validPreviewLayer.connection {
-                if validPreviewLayerConnection.supportsVideoOrientation {
-                    validPreviewLayerConnection.videoOrientation = _currentVideoOrientation()
+            if shouldRespondToOrientationChanges {
+                if let validPreviewLayerConnection = validPreviewLayer.connection {
+                    if validPreviewLayerConnection.supportsVideoOrientation {
+                        validPreviewLayerConnection.videoOrientation = _currentVideoOrientation()
+                    }
                 }
-            }
-            if let validOutputLayerConnection = currentConnection {
-                if validOutputLayerConnection.supportsVideoOrientation {
-                    validOutputLayerConnection.videoOrientation = _currentVideoOrientation()
+                if let validOutputLayerConnection = currentConnection {
+                    if validOutputLayerConnection.supportsVideoOrientation {
+                        validOutputLayerConnection.videoOrientation = _currentVideoOrientation()
+                    }
                 }
             }
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
